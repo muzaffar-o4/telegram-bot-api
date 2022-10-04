@@ -31,13 +31,13 @@ const todosBtn = {
 
     reply_markup: JSON.stringify(
         {
-            keyboard: [
-                [{ text: "eslatma qo'shish 🔧", callback_data: 'add' }, { text: "eslatmani tahrirlash ✏️", callback_data: 'edit' }],
-                [{ text: "eslatmani o'chirish 🧹", callback_data: 'remove' }],
-                [{ text: "barcha eslatmalar 🎛", callback_data: 'todo' }],
+            inline_keyboard: [
+                [{ text: "eslatma qo'shish 🔧", callback_data: '/add' }, { text: "eslatmani tahrirlash ✏️", callback_data: '/edit' }],
+                [{ text: "eslatmani o'chirish 🧹", callback_data: '/remove' }],
+                [{ text: "barcha eslatmalar 🎛", callback_data: '/todo' }],
             ],
-            resize_keyboard: true,
-            one_time_keyboard: true
+            // resize_keyboard: true,
+            // one_time_keyboard: true
         }
     )
 }
@@ -98,6 +98,13 @@ const render = () => {
     bot.on('callback_query', async (msg) => {
         const data = msg.data;
         const chatId = msg.message.chat.id;
+        const text = msg.message.text;
+
+        if (data === '/add') {
+            return bot.sendMessage(chatId, "Eslatma kiriting !");
+
+        }
+
         if (data === '/again') return startGame(chatId)
         if (data != chats[chatId]) {
             return bot.sendMessage(chatId, `Afsuski! Bizning son ${chats[chatId]} edi.`, gameAgain)
